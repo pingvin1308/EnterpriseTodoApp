@@ -1,6 +1,14 @@
+using EnterpriseTodoApp.DataAccess;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+var connectionString = builder.Configuration
+    .GetConnectionString(nameof(EnterpriseTodoAppDbContext)) ?? throw new ArgumentException("Please setup your connection string.");
+builder.Services.AddDbContext<EnterpriseTodoAppDbContext>(x => 
+    x.UseNpgsql(connectionString));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
